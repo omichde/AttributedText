@@ -14,7 +14,6 @@
 		DE084203258FAD0000246A68 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE084202258FAD0000246A68 /* Preview Assets.xcassets */; };
 		DE084206258FAD0000246A68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE084204258FAD0000246A68 /* LaunchScreen.storyboard */; };
 		DE945B8A258FF10B00094880 /* Atributika in Frameworks */ = {isa = PBXBuildFile; productRef = DE945B89258FF10B00094880 /* Atributika */; };
-		DE945B8D258FF13300094880 /* TextAttributedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE945B8C258FF13300094880 /* TextAttributedView.swift */; };
 		DECEA97B258FAF0200027866 /* AttributedText in Frameworks */ = {isa = PBXBuildFile; productRef = DECEA97A258FAF0200027866 /* AttributedText */; };
 /* End PBXBuildFile section */
 
@@ -27,7 +26,6 @@
 		DE084202258FAD0000246A68 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DE084205258FAD0000246A68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DE084207258FAD0000246A68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DE945B8C258FF13300094880 /* TextAttributedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAttributedView.swift; sourceTree = "<group>"; };
 		DECEA977258FAE4600027866 /* AttributedText */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AttributedText; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,7 +66,6 @@
 				DE0841F9258FAD0000246A68 /* AppDelegate.swift */,
 				DE0841FB258FAD0000246A68 /* SceneDelegate.swift */,
 				DE0841FD258FAD0000246A68 /* ContentView.swift */,
-				DE945B8C258FF13300094880 /* TextAttributedView.swift */,
 				DE0841FF258FAD0000246A68 /* Assets.xcassets */,
 				DE084204258FAD0000246A68 /* LaunchScreen.storyboard */,
 				DE084207258FAD0000246A68 /* Info.plist */,
@@ -172,7 +169,6 @@
 				DE0841FA258FAD0000246A68 /* AppDelegate.swift in Sources */,
 				DE0841FC258FAD0000246A68 /* SceneDelegate.swift in Sources */,
 				DE0841FE258FAD0000246A68 /* ContentView.swift in Sources */,
-				DE945B8D258FF13300094880 /* TextAttributedView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,10 +28,11 @@ public struct AttributedText: View {
 	}
 }
 
+#if DEBUG
 struct AttributedText_Previews: PreviewProvider {
 	static let basicText: NSAttributedString = {
-		let quote = "The quick brown fox jumps over the lazy dog."
-		let font = UIFont.systemFont(ofSize: 12)
+		let quote = "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+		let font = UIFont(name: "Zapfino", size: 12)!
 		let attributes = [NSAttributedString.Key.font: font]
 		return NSAttributedString(string: quote, attributes: attributes)
 	}()
@@ -50,6 +51,7 @@ struct AttributedText_Previews: PreviewProvider {
 		}
 	}
 }
+#endif
 
 private extension View {
 	// https://fivestars.blog/swiftui/conditional-modifiers.html
@@ -66,13 +68,13 @@ private extension View {
 	}
 }
 
+// MARK: - helpers for size calculation
+
 private struct SizedTextContent: Equatable {
 	let attributedText: NSAttributedString
 	let size: CGSize
 	
-	static let empty = SizedTextContent(
-		attributedText: NSAttributedString(string: ""),
-		size: .zero)
+	static let empty = SizedTextContent(attributedText: NSAttributedString(string: ""), size: .zero)
 	
 	func with(height: CGFloat) -> SizedTextContent {
 		SizedTextContent(attributedText: attributedText, size: CGSize(width: size.width, height: height))
@@ -84,7 +86,7 @@ private struct SizedTextPreferenceKey: PreferenceKey {
 	static func reduce(value: inout Value, nextValue: () -> Value) {
 		var val = nextValue()
 		if value.size.width > 0 {   // this is called multiple times with the default size value and we only need to recalculate for a "valid" width
-			let height = value.attributedText.boxHeight(value.size.width)
+			let height = value.attributedText.calculateBoxHeight(value.size.width)
 			val = value.with(height: height)
 		}
 		value = val
@@ -92,7 +94,8 @@ private struct SizedTextPreferenceKey: PreferenceKey {
 }
 
 private extension NSAttributedString {
-	func boxHeight(_ width: CGFloat) -> CGFloat {
+	// https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/TextLayout/Tasks/StringHeight.html#//apple_ref/doc/uid/20001809-CJBGBIBB
+	func calculateBoxHeight(_ width: CGFloat) -> CGFloat {
 		let box = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
 		let storage = NSTextStorage(attributedString: self)
 		let container = NSTextContainer(size: box)
@@ -105,6 +108,8 @@ private extension NSAttributedString {
 		return ceil(manager.usedRect(for: container).size.height)
 	}
 }
+
+// MARK: - UIKit wonderland
 
 private struct WrappedTextView: UIViewRepresentable {
 	let attributedText: NSAttributedString
@@ -123,46 +128,47 @@ private struct WrappedTextView: UIViewRepresentable {
 }
 
 private class AttributedUITextView: UIView {
-	private let textView = UITextView(frame: .zero)
-
-	required init?(coder: NSCoder) { fatalError() }
-	
+	private let textView = UITextView()
 	var attributedText: NSAttributedString? {
-		didSet {
-			textView.attributedText = attributedText
+		set {
+			textView.attributedText = newValue
 			setNeedsLayout()
+		}
+		get {
+			return textView.attributedText
 		}
 	}
 
-	init () {
-		super.init(frame: .zero)
-
+	override init(frame: CGRect) {
+		super.init(frame: frame)
+		setup()
+	}
+	
+	required init?(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+		setup()
+	}
+	
+	private func setup() {
 		addSubview(textView)
-		textView.translatesAutoresizingMaskIntoConstraints = false
 		
-		textView.backgroundColor = .clear
-		textView.textContainer.maximumNumberOfLines = 0
-		textView.textContainer.lineFragmentPadding = 0
 		textView.textContainer.lineBreakMode = .byWordWrapping
-		textView.textContainerInset = .zero
-		textView.isScrollEnabled = false
+		textView.textContainer.maximumNumberOfLines = 0
 		
+		textView.textContainer.lineFragmentPadding = 0;
+		textView.textContainerInset = .zero;
+		textView.isUserInteractionEnabled = false
+		textView.isEditable = false
+		textView.isScrollEnabled = false
+		textView.isSelectable = false
+		textView.backgroundColor = nil
+		
+		textView.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
 			textView.topAnchor.constraint(equalTo: topAnchor),
 			textView.bottomAnchor.constraint(equalTo: bottomAnchor),
 			textView.leftAnchor.constraint(equalTo: leftAnchor),
 			textView.rightAnchor.constraint(equalTo: rightAnchor)
 		])
-
-		setContentHuggingPriority(.required, for: .horizontal)
-		setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-
-//		setContentHuggingPriority(.defaultLow, for: .vertical)
-//		setContentCompressionResistancePriority(.required, for: .vertical)
-	}
-
-	override var intrinsicContentSize: CGSize {
-		CGSize(width: bounds.size.width,
-					 height: attributedText?.boxHeight(bounds.size.width) ?? 0)
 	}
 }

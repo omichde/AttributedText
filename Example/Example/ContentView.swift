@@ -11,7 +11,7 @@ import AttributedText
 struct ContentView: View {
 	let basicText: NSAttributedString = {
 		let quote = "The quick brown fox jumps over the lazy dog."
-		let font = UIFont.systemFont(ofSize: 32)
+		let font = UIFont.systemFont(ofSize: 20)
 		let attributes = [NSAttributedString.Key.font: font]
 		return NSAttributedString(string: quote, attributes: attributes)
 	}()
@@ -21,10 +21,30 @@ struct ContentView: View {
 			Color.blue.frame(height: 10)
 			HStack {
 				Color.red.frame(width: 50, height: 10)
-//				TextAttributedView(basicText.string)
 				AttributedText(basicText)
 					.background(Color.green.opacity(0.5))
 				Color.red.frame(width: 100, height: 10)
+			}
+			Color.blue.frame(height: 10)
+			HStack {
+				Color.red.frame(width: 150, height: 10)
+				AttributedText(basicText)
+					.background(Color.green.opacity(0.5))
+				Color.red.frame(width: 10, height: 10)
+			}
+			Color.blue.frame(height: 10)
+			HStack {
+				Color.red.frame(width: 10, height: 10)
+				AttributedText(basicText)
+					.background(Color.green.opacity(0.5))
+				Color.red.frame(width: 150, height: 10)
+			}
+			Color.blue.frame(height: 10)
+			HStack {
+				Color.red.frame(width: 250, height: 10)
+				AttributedText(basicText)
+					.background(Color.green.opacity(0.5))
+				Color.red.frame(width: 20, height: 10)
 			}
 			Color.blue.frame(height: 10)
 			Spacer().layoutPriority(0.1)

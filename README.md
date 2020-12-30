@@ -11,6 +11,7 @@ There is an example where some more fancy attributed strings are shown and how t
 - show an image alongside a text
 
 The background colors and bars are for testing purposes:
+
 ![Screenshot](/screenshot.png)
 
 ## Considerations
@@ -27,6 +28,7 @@ Although this code is used in production, it has some weaknesses I'd like to poi
 - a static extension on `NSAttributedString` is used to calculate the final height, this is according to Apples sample code but conceptionally decoupled from the UITextView rendering the text.
 - this code does not deal with building `NSAttributedString` - there are other libraries (e.g. https://github.com/psharanda/Atributika) doing that.
 - in particular, converting html to attributed strings is not covered here.
+- modifying the content by means of SwiftUI modifiers (e.g. `.foreground(Color.red)`) is not supported (as I have no idea how to propagate these changes down to a UIViewPresentable, get in contact if you know how)
 
 ## Contact
 

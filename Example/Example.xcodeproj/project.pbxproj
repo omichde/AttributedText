@@ -13,6 +13,8 @@
 		DE084200258FAD0000246A68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE0841FF258FAD0000246A68 /* Assets.xcassets */; };
 		DE084203258FAD0000246A68 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE084202258FAD0000246A68 /* Preview Assets.xcassets */; };
 		DE084206258FAD0000246A68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE084204258FAD0000246A68 /* LaunchScreen.storyboard */; };
+		DE945B8A258FF10B00094880 /* Atributika in Frameworks */ = {isa = PBXBuildFile; productRef = DE945B89258FF10B00094880 /* Atributika */; };
+		DE945B8D258FF13300094880 /* TextAttributedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE945B8C258FF13300094880 /* TextAttributedView.swift */; };
 		DECEA97B258FAF0200027866 /* AttributedText in Frameworks */ = {isa = PBXBuildFile; productRef = DECEA97A258FAF0200027866 /* AttributedText */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +27,7 @@
 		DE084202258FAD0000246A68 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DE084205258FAD0000246A68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DE084207258FAD0000246A68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DE945B8C258FF13300094880 /* TextAttributedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAttributedView.swift; sourceTree = "<group>"; };
 		DECEA977258FAE4600027866 /* AttributedText */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AttributedText; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -33,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE945B8A258FF10B00094880 /* Atributika in Frameworks */,
 				DECEA97B258FAF0200027866 /* AttributedText in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -64,6 +68,7 @@
 				DE0841F9258FAD0000246A68 /* AppDelegate.swift */,
 				DE0841FB258FAD0000246A68 /* SceneDelegate.swift */,
 				DE0841FD258FAD0000246A68 /* ContentView.swift */,
+				DE945B8C258FF13300094880 /* TextAttributedView.swift */,
 				DE0841FF258FAD0000246A68 /* Assets.xcassets */,
 				DE084204258FAD0000246A68 /* LaunchScreen.storyboard */,
 				DE084207258FAD0000246A68 /* Info.plist */,
@@ -105,6 +110,7 @@
 			name = Example;
 			packageProductDependencies = (
 				DECEA97A258FAF0200027866 /* AttributedText */,
+				DE945B89258FF10B00094880 /* Atributika */,
 			);
 			productName = Example;
 			productReference = DE0841F6258FAD0000246A68 /* Example.app */;
@@ -133,6 +139,9 @@
 				Base,
 			);
 			mainGroup = DE0841ED258FAD0000246A68;
+			packageReferences = (
+				DE945B88258FF10B00094880 /* XCRemoteSwiftPackageReference "Atributika" */,
+			);
 			productRefGroup = DE0841F7258FAD0000246A68 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -163,6 +172,7 @@
 				DE0841FA258FAD0000246A68 /* AppDelegate.swift in Sources */,
 				DE0841FC258FAD0000246A68 /* SceneDelegate.swift in Sources */,
 				DE0841FE258FAD0000246A68 /* ContentView.swift in Sources */,
+				DE945B8D258FF13300094880 /* TextAttributedView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,7 +373,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		DE945B88258FF10B00094880 /* XCRemoteSwiftPackageReference "Atributika" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/psharanda/Atributika";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.9.10;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		DE945B89258FF10B00094880 /* Atributika */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DE945B88258FF10B00094880 /* XCRemoteSwiftPackageReference "Atributika" */;
+			productName = Atributika;
+		};
 		DECEA97A258FAF0200027866 /* AttributedText */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AttributedText;

@@ -10,13 +10,14 @@ public struct AttributedText: View {
 	}
 	
 	public var body: some View {
-		AttributedTextWrapperView(attributedText)
+		WrappedTextView(attributedText)
 			.background(GeometryReader { geo in
 				Color.clear.preference(key: SizedTextPreferenceKey.self,
 															 value: SizedTextContent(attributedText: attributedText, size: geo.size))
 			})
-			
-			.if(box.width > 0) { $0.frame(width: box.width, height: box.height) }
+			.if(box.width > 0) {
+				$0.frame(width: box.width, height: box.height)
+			}
 			.onPreferenceChange(SizedTextPreferenceKey.self) { value in
 				// minimize updates
 				if value.size.width > 0 && value.size.height > 0 &&
@@ -28,8 +29,25 @@ public struct AttributedText: View {
 }
 
 struct AttributedText_Previews: PreviewProvider {
+	static let basicText: NSAttributedString = {
+		let quote = "The quick brown fox jumps over the lazy dog."
+		let font = UIFont.systemFont(ofSize: 12)
+		let attributes = [NSAttributedString.Key.font: font]
+		return NSAttributedString(string: quote, attributes: attributes)
+	}()
+
 	static var previews: some View {
-		AttributedText(NSAttributedString(string: "Hello World!"))
+		VStack {
+			Color.blue.frame(height: 10)
+			HStack {
+				Color.red.frame(width: 50, height: 10)
+				AttributedText(basicText)
+					.background(Color.green.opacity(0.5))
+				Color.red.frame(width: 100, height: 10)
+			}
+			Color.blue.frame(height: 10)
+			Spacer().layoutPriority(0.1)
+		}
 	}
 }
 
@@ -65,34 +83,18 @@ private struct SizedTextPreferenceKey: PreferenceKey {
 	static let defaultValue: SizedTextContent = .empty
 	static func reduce(value: inout Value, nextValue: () -> Value) {
 		var val = nextValue()
-		if val.size.width > 0 {   // this is called multiple times with the default size value and we only need to recalculate for a "valid" width
-			let height = AttributedTextWrapperView.boxHeight(attributedText: val.attributedText, width: val.size.width)
+		if value.size.width > 0 {   // this is called multiple times with the default size value and we only need to recalculate for a "valid" width
+			let height = value.attributedText.boxHeight(value.size.width)
 			val = value.with(height: height)
 		}
 		value = val
 	}
 }
 
-private struct AttributedTextWrapperView: UIViewRepresentable {
-	let attributedText: NSAttributedString
-	
-	init(_ attributedText: NSAttributedString) {
-		self.attributedText = attributedText
-	}
-	
-	func makeUIView(context: Context) -> AttributedUITextView {
-		let view = AttributedUITextView()
-		view.attributedText = attributedText
-		return view
-	}
-	
-	func updateUIView(_ uiView: AttributedUITextView, context: Context) {
-		uiView.attributedText = attributedText
-	}
-	
-	static func boxHeight(attributedText: NSAttributedString, width: CGFloat) -> CGFloat {
+private extension NSAttributedString {
+	func boxHeight(_ width: CGFloat) -> CGFloat {
 		let box = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
-		let storage = NSTextStorage(attributedString: attributedText)
+		let storage = NSTextStorage(attributedString: self)
 		let container = NSTextContainer(size: box)
 		let manager = NSLayoutManager()
 		manager.addTextContainer(container)
@@ -104,24 +106,63 @@ private struct AttributedTextWrapperView: UIViewRepresentable {
 	}
 }
 
-private class AttributedUITextView: UITextView {
-	required init?(coder: NSCoder) { fatalError() }
+private struct WrappedTextView: UIViewRepresentable {
+	let attributedText: NSAttributedString
 	
-	init () {
-		super.init(frame: .zero, textContainer: nil)
-		backgroundColor = .clear
-		textContainer.maximumNumberOfLines = 0
-		textContainer.lineFragmentPadding = 0
-		textContainerInset = .zero
-		isScrollEnabled = false
-		setContentHuggingPriority(.required, for: .horizontal)
-		setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+	init(_ attributedText: NSAttributedString) {
+		self.attributedText = attributedText
 	}
 	
+	func makeUIView(context: Context) -> AttributedUITextView {
+		AttributedUITextView()
+	}
+	
+	func updateUIView(_ uiView: AttributedUITextView, context: Context) {
+		uiView.attributedText = attributedText
+	}
+}
+
+private class AttributedUITextView: UIView {
+	private let textView = UITextView(frame: .zero)
+
+	required init?(coder: NSCoder) { fatalError() }
+	
+	var attributedText: NSAttributedString? {
+		didSet {
+			textView.attributedText = attributedText
+			setNeedsLayout()
+		}
+	}
+
+	init () {
+		super.init(frame: .zero)
+
+		addSubview(textView)
+		textView.translatesAutoresizingMaskIntoConstraints = false
+		
+		textView.backgroundColor = .clear
+		textView.textContainer.maximumNumberOfLines = 0
+		textView.textContainer.lineFragmentPadding = 0
+		textView.textContainer.lineBreakMode = .byWordWrapping
+		textView.textContainerInset = .zero
+		textView.isScrollEnabled = false
+		
+		NSLayoutConstraint.activate([
+			textView.topAnchor.constraint(equalTo: topAnchor),
+			textView.bottomAnchor.constraint(equalTo: bottomAnchor),
+			textView.leftAnchor.constraint(equalTo: leftAnchor),
+			textView.rightAnchor.constraint(equalTo: rightAnchor)
+		])
+
+		setContentHuggingPriority(.required, for: .horizontal)
+		setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
+//		setContentHuggingPriority(.defaultLow, for: .vertical)
+//		setContentCompressionResistancePriority(.required, for: .vertical)
+	}
+
 	override var intrinsicContentSize: CGSize {
-		print(bounds.size.width)
-		return sizeThatFits(CGSize(
-									width: bounds.size.width,
-									height: CGFloat.greatestFiniteMagnitude))
+		CGSize(width: bounds.size.width,
+					 height: attributedText?.boxHeight(bounds.size.width) ?? 0)
 	}
 }

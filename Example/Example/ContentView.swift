@@ -21,9 +21,10 @@ struct ContentView: View {
 			Color.blue.frame(height: 10)
 			HStack {
 				Color.red.frame(width: 50, height: 10)
+//				TextAttributedView(basicText.string)
 				AttributedText(basicText)
 					.background(Color.green.opacity(0.5))
-				Color.red.frame(width: 150, height: 10)
+				Color.red.frame(width: 100, height: 10)
 			}
 			Color.blue.frame(height: 10)
 			Spacer().layoutPriority(0.1)

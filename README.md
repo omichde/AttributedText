@@ -10,6 +10,7 @@ There is an example where some more fancy attributed strings are shown and how t
 - show word-by-word styling including links (which open externally)
 - show an image alongside a text
 
+The background colors and bars are for testing purposes:
 ![Screenshot](/screenshot.png)
 
 ## Considerations

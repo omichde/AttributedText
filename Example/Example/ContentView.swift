@@ -18,9 +18,11 @@ struct ContentView: View {
 
 	let styledText: NSAttributedString = {
 		let quote = "The quick brown fox jumps over the lazy dog."
-		let font = UIFont(name: "Chalkduster", size: 32)!
-		let attributes = [NSAttributedString.Key.font: font]
-		return NSAttributedString(string: quote, attributes: attributes)
+		let str = NSMutableAttributedString(string: quote)
+		for idx in 0..<str.length/2 {
+			str.addAttribute(.font, value: UIFont(name: "Chalkduster", size: 32)!, range: NSRange(location: idx * 2, length: 1))
+		}
+		return str
 	}()
 
 	let weirdText: NSAttributedString = {

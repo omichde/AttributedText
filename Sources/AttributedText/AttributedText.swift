@@ -32,7 +32,7 @@ public struct AttributedText: View {
 struct AttributedText_Previews: PreviewProvider {
 	static let basicText: NSAttributedString = {
 		let quote = "Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-		let font = UIFont(name: "Zapfino", size: 12)!
+		let font = UIFont(name: "Bradley Hand", size: 16)!
 		let attributes = [NSAttributedString.Key.font: font]
 		return NSAttributedString(string: quote, attributes: attributes)
 	}()
@@ -127,20 +127,9 @@ private struct WrappedTextView: UIViewRepresentable {
 	}
 }
 
-private class AttributedUITextView: UIView {
-	private let textView = UITextView()
-	var attributedText: NSAttributedString? {
-		set {
-			textView.attributedText = newValue
-			setNeedsLayout()
-		}
-		get {
-			return textView.attributedText
-		}
-	}
-
-	override init(frame: CGRect) {
-		super.init(frame: frame)
+private class AttributedUITextView: UITextView {
+	override init(frame: CGRect, textContainer: NSTextContainer?) {
+		super.init(frame: frame, textContainer: textContainer)
 		setup()
 	}
 	
@@ -150,25 +139,17 @@ private class AttributedUITextView: UIView {
 	}
 	
 	private func setup() {
-		addSubview(textView)
-		
-		textView.textContainer.lineBreakMode = .byWordWrapping
-		textView.textContainer.maximumNumberOfLines = 0
-		
-		textView.textContainer.lineFragmentPadding = 0;
-		textView.textContainerInset = .zero;
-		textView.isUserInteractionEnabled = false
-		textView.isEditable = false
-		textView.isScrollEnabled = false
-		textView.isSelectable = false
-		textView.backgroundColor = nil
-		
-		textView.translatesAutoresizingMaskIntoConstraints = false
-		NSLayoutConstraint.activate([
-			textView.topAnchor.constraint(equalTo: topAnchor),
-			textView.bottomAnchor.constraint(equalTo: bottomAnchor),
-			textView.leftAnchor.constraint(equalTo: leftAnchor),
-			textView.rightAnchor.constraint(equalTo: rightAnchor)
-		])
+		textContainer.lineBreakMode = .byWordWrapping
+		textContainer.maximumNumberOfLines = 0
+		textContainer.lineFragmentPadding = 0;
+		textContainerInset = .zero;
+		isUserInteractionEnabled = true
+		isEditable = false
+		isScrollEnabled = false
+		isSelectable = true
+		backgroundColor = nil
+
+		setContentHuggingPriority(.required, for: .horizontal)
+		setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 	}
 }

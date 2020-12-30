@@ -13,7 +13,6 @@
 		DE084200258FAD0000246A68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE0841FF258FAD0000246A68 /* Assets.xcassets */; };
 		DE084203258FAD0000246A68 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE084202258FAD0000246A68 /* Preview Assets.xcassets */; };
 		DE084206258FAD0000246A68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE084204258FAD0000246A68 /* LaunchScreen.storyboard */; };
-		DE945B8A258FF10B00094880 /* Atributika in Frameworks */ = {isa = PBXBuildFile; productRef = DE945B89258FF10B00094880 /* Atributika */; };
 		DECEA97B258FAF0200027866 /* AttributedText in Frameworks */ = {isa = PBXBuildFile; productRef = DECEA97A258FAF0200027866 /* AttributedText */; };
 /* End PBXBuildFile section */
 
@@ -34,7 +33,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE945B8A258FF10B00094880 /* Atributika in Frameworks */,
 				DECEA97B258FAF0200027866 /* AttributedText in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -107,7 +105,6 @@
 			name = Example;
 			packageProductDependencies = (
 				DECEA97A258FAF0200027866 /* AttributedText */,
-				DE945B89258FF10B00094880 /* Atributika */,
 			);
 			productName = Example;
 			productReference = DE0841F6258FAD0000246A68 /* Example.app */;
@@ -137,7 +134,6 @@
 			);
 			mainGroup = DE0841ED258FAD0000246A68;
 			packageReferences = (
-				DE945B88258FF10B00094880 /* XCRemoteSwiftPackageReference "Atributika" */,
 			);
 			productRefGroup = DE0841F7258FAD0000246A68 /* Products */;
 			projectDirPath = "";
@@ -369,23 +365,7 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		DE945B88258FF10B00094880 /* XCRemoteSwiftPackageReference "Atributika" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/psharanda/Atributika";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.9.10;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		DE945B89258FF10B00094880 /* Atributika */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DE945B88258FF10B00094880 /* XCRemoteSwiftPackageReference "Atributika" */;
-			productName = Atributika;
-		};
 		DECEA97A258FAF0200027866 /* AttributedText */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AttributedText;

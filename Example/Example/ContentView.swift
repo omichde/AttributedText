@@ -16,6 +16,33 @@ struct ContentView: View {
 		return NSAttributedString(string: quote, attributes: attributes)
 	}()
 
+	let styledText: NSAttributedString = {
+		let quote = "The quick brown fox jumps over the lazy dog."
+		let font = UIFont(name: "Chalkduster", size: 32)!
+		let attributes = [NSAttributedString.Key.font: font]
+		return NSAttributedString(string: quote, attributes: attributes)
+	}()
+
+	let weirdText: NSAttributedString = {
+		let quote = "The quick brown fox jumps over the lazy 🐕."
+		let str = NSMutableAttributedString(string: quote)
+		str.addAttribute(.font, value: UIFont.boldSystemFont(ofSize: 20), range: NSRange(location: 4, length: 5))
+		str.addAttribute(.foregroundColor, value: UIColor.brown, range: NSRange(location: 10, length: 5))
+		str.addAttribute(.link, value: NSURL(string: "http://apple.com")!, range: NSRange(location: 16, length: 3))
+		str.addAttribute(.underlineStyle, value: 1, range: NSRange(location: 16, length: 3))
+		str.addAttribute(.baselineOffset, value: 4, range: NSRange(location: 26, length: 4))
+		return str
+	}()
+
+	let imageText: NSAttributedString = {
+		let quote = "epunks for the win..."
+		let attachment = NSTextAttachment()
+		attachment.image = UIImage(named: "epunk")
+		let str = NSMutableAttributedString(attachment: attachment)
+		str.append(NSAttributedString(string: quote))
+		return str
+	}()
+
 	var body: some View {
 		VStack {
 			Color.blue.frame(height: 10)
@@ -28,24 +55,19 @@ struct ContentView: View {
 			Color.blue.frame(height: 10)
 			HStack {
 				Color.red.frame(width: 150, height: 10)
-				AttributedText(basicText)
+				AttributedText(styledText)
 					.background(Color.green.opacity(0.5))
 				Color.red.frame(width: 10, height: 10)
 			}
 			Color.blue.frame(height: 10)
 			HStack {
 				Color.red.frame(width: 10, height: 10)
-				AttributedText(basicText)
+				AttributedText(weirdText)
 					.background(Color.green.opacity(0.5))
 				Color.red.frame(width: 150, height: 10)
 			}
 			Color.blue.frame(height: 10)
-			HStack {
-				Color.red.frame(width: 250, height: 10)
-				AttributedText(basicText)
-					.background(Color.green.opacity(0.5))
-				Color.red.frame(width: 20, height: 10)
-			}
+			AttributedText(imageText)
 			Color.blue.frame(height: 10)
 			Spacer().layoutPriority(0.1)
 		}

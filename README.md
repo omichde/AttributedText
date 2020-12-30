@@ -16,19 +16,19 @@ The background colors and bars are for testing purposes:
 
 ## Considerations
 
-The view internally is using the following `layers`:
+The view internally is using the following "layers":
 
-- `AttributedText` is embedding `WrappedTextView` only for its size calculation by means of a `GeometryReder` and a `PreferenceKey`.
+- `AttributedText` is embedding `WrappedTextView` only for its size calculation by means of a `GeometryReader` and the usual `PreferenceKey` dance.
 - `WrappedTextView` is the `UIViewRepresentable` bridging between SwiftUI and UIKit
 - `WrappedTextView` uses the final `AttributedUITextView` to render the attributed string as a subclass from `UITextView`
 
 Although this code is used in production, it has some weaknesses I'd like to point out:
 
 - "sometimes" SwiftUI complains of repeated size calculations (but succeeds anyway). I've tried to minimize the size calculations but please report any bugs in that regard.
-- a static extension on `NSAttributedString` is used to calculate the final height, this is according to Apples sample code but conceptionally decoupled from the UITextView rendering the text.
+- a static extension on `NSAttributedString` is used to calculate the final height, this is according to Apples sample code but conceptionally decoupled from the UITextView rendering the text - meh.
 - this code does not deal with building `NSAttributedString` - there are other libraries (e.g. https://github.com/psharanda/Atributika) doing that.
 - in particular, converting html to attributed strings is not covered here.
-- modifying the content by means of SwiftUI modifiers (e.g. `.foreground(Color.red)`) is not supported (as I have no idea how to propagate these changes down to a UIViewPresentable, get in contact if you know how)
+- modifying the content by means of SwiftUI modifiers (e.g. `.foreground(Color.red)`) is not supported (as I have no idea how to propagate these changes down to a `UIViewPresentable` - get in contact if you know how)
 
 ## Contact
 
@@ -38,7 +38,7 @@ omichde - Oliver Michalak - oliver@werk01.de
 
 ## Installation
 
-Embed it as a SwiftPM package: `https://github.com/omichde/AttributedText` 
+Embed it as a SwiftPM package: `https://github.com/omichde/AttributedText` - it should work in iOS 13 and above... 
 
 ## License
 

@@ -1,7 +1,7 @@
 # AttributedText
 
 Using this view in SwiftUI is a simple as `AttributedText(attributedString)` and hence closely resembles the simplicity of `Text`.
-The content of the text is width-constrained (it grows in height) and self-contained (no other dependancies).
+The content of the text is width-constrained (it grows in height) and self-contained (no other dependencies).
 
 There is an example where some more fancy attributed strings are shown and how the content:
 
@@ -10,7 +10,41 @@ There is an example where some more fancy attributed strings are shown and how t
 - show word-by-word styling including links (which open externally)
 - show an image alongside a text
 
-The background colors and bars are for testing purposes:
+## Example
+
+This siplified code contains background colors and bars are for testing purposes:
+
+```swift
+var body: some View {
+	VStack {
+		Color.blue.frame(height: 10)
+		HStack {
+			Color.red.frame(width: 50, height: 10)
+			AttributedText(basicText)
+				.background(Color.green.opacity(0.5))
+			Color.red.frame(width: 100, height: 10)
+		}
+		Color.blue.frame(height: 10)
+		HStack {
+			Color.red.frame(width: 150, height: 10)
+			AttributedText(styledText)
+				.background(Color.green.opacity(0.5))
+			Color.red.frame(width: 10, height: 10)
+		}
+		Color.blue.frame(height: 10)
+		HStack {
+			Color.red.frame(width: 10, height: 10)
+			AttributedText(weirdText)
+				.background(Color.green.opacity(0.5))
+			Color.red.frame(width: 150, height: 10)
+		}
+		Color.blue.frame(height: 10)
+		AttributedText(imageText)
+		Color.blue.frame(height: 10)
+		Spacer().layoutPriority(0.1)
+	}
+}
+```
 
 ![Screenshot](/screenshot.png)
 
@@ -20,12 +54,13 @@ The view internally is using the following "layers":
 
 - `AttributedText` is embedding `WrappedTextView` only for its size calculation by means of a `GeometryReader` and the usual `PreferenceKey` dance.
 - `WrappedTextView` is the `UIViewRepresentable` bridging between SwiftUI and UIKit
-- `WrappedTextView` uses the final `AttributedUITextView` to render the attributed string as a subclass from `UITextView`
+- `WrappedTextView` uses the final `AttributedUITextView` to render the attributed string
+- `AttributedUITextView` is a subclass from `UITextView`
 
 Although this code is used in production, it has some weaknesses I'd like to point out:
 
 - "sometimes" SwiftUI complains of repeated size calculations (but succeeds anyway). I've tried to minimize the size calculations but please report any bugs in that regard.
-- a static extension on `NSAttributedString` is used to calculate the final height, this is according to Apples sample code but conceptionally decoupled from the UITextView rendering the text - meh.
+- a static extension on `NSAttributedString` is used to calculate the final height, this is according to Apples sample code but conceptionally decoupled from the UITextView rendering the text - meh
 - this code does not deal with building `NSAttributedString` - there are other libraries (e.g. https://github.com/psharanda/Atributika) doing that.
 - in particular, converting html to attributed strings is not covered here.
 - modifying the content by means of SwiftUI modifiers (e.g. `.foreground(Color.red)`) is not supported (as I have no idea how to propagate these changes down to a `UIViewPresentable` - get in contact if you know how)

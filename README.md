@@ -12,7 +12,7 @@ There is an example where some more fancy attributed strings are shown and how t
 
 ## Example
 
-This siplified code contains background colors and bars for testing purposes:
+This simplified code contains background colors and bars for testing purposes:
 
 ```swift
 let weirdText: NSAttributedString = {
